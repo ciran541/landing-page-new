@@ -618,7 +618,7 @@ body {
     }
 
     .hero {
-        background-attachment: scroll;
+        /* background-attachment: scroll; */
         padding: 2rem 0;
     }
 
