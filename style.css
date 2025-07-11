@@ -152,12 +152,12 @@ body {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
-            margin-top: 3rem;
+            margin-top: 1rem;
             justify-content: center;
         }
 
         .stat-item {
-            text-align: center;
+            text-align: left;
             color: white;
         }
 
