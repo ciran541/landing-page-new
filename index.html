@@ -5,718 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Loan Connection - Singapore's Most Trusted Mortgage Broker</title>
     <link href="https://fonts.googleapis.com/css2?family=Avenir:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Avenir', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            overflow-x: hidden;
-        }
-
-        /* Header */
-        .header {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(15px);
-            padding: 1.5rem 0;
-            border-bottom: 1px solid rgba(253, 197, 0, 0.3);
-            position: relative;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #fdc500, #ee3238, #fdc500);
-            background-size: 200% 100%;
-            animation: gradientSlide 3s ease-in-out infinite;
-        }
-
-        @keyframes gradientSlide {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 0 2rem;
-            gap: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .logo-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .tlc-logo {
-            height: 90px;
-            width: auto;
-            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1));
-            transition: all 0.3s ease;
-        }
-
-        .tlc-logo:hover {
-            transform: translateY(-2px);
-            filter: drop-shadow(0 12px 24px rgba(0,0,0,0.15));
-        }
-
-        .tagline {
-            color: #052d4a;
-            font-size: 1.6rem;
-            font-weight: 700;
-            line-height: 1.3;
-            letter-spacing: -0.5px;
-            position: relative;
-            max-width: 800px;
-        }
-
-        .tagline::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #fdc500, #ee3238);
-            border-radius: 2px;
-        }
-
-        .tagline .highlight {
-            color: #fdc500;
-            position: relative;
-            z-index: 1;
-        }
-
-        .tagline .highlight::before {
-            content: '';
-            position: absolute;
-            bottom: 2px;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background: rgba(253, 197, 0, 0.2);
-            z-index: -1;
-            border-radius: 4px;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(5, 45, 74, 0.8), rgba(5, 45, 74, 0.8)), url('https://theloanconnection.com.sg/wp-content/uploads/2025/01/aur.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 4rem 0;
-        }
-
-        .hero-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-text h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: #fdc500;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            line-height: 1.1;
-        }
-
-        .hero-text p {
-            font-size: 1.3rem;
-            color: white;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .stat-item {
-            text-align: center;
-            color: white;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #fdc500;
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        /* Form */
-        .form-container {
-            background: rgba(255, 255, 255, 0.98);
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(253, 197, 0, 0.3);
-        }
-
-        .form-container h3 {
-            color: #052d4a;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #052d4a;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            font-family: 'Avenir', sans-serif;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #fdc500;
-            box-shadow: 0 0 0 3px rgba(253, 197, 0, 0.1);
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .radio-option input[type="radio"] {
-            width: auto;
-            margin: 0;
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, #fdc500, #ee3238);
-            color: white;
-            padding: 1.2rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(253, 197, 0, 0.3);
-            font-family: 'Avenir', sans-serif;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(253, 197, 0, 0.4);
-        }
-
-        /* Partners Section */
-        .partners {
-            background: #f8f9fa;
-            padding: 4rem 0;
-        }
-
-        .partners-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .partners h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            color: #052d4a;
-            margin-bottom: 3rem;
-        }
-
-        .partners-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .tlc-partners-slide {
-            text-align: center;
-            padding: 1.5rem;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .tlc-partners-slide:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-
-        .tlc-partners-slide img {
-            max-width: 100%;
-            height: 60px;
-            object-fit: contain;
-        }
-
-        /* Why Choose Us Section */
-        .why-choose {
-            background: linear-gradient(135deg, #052d4a, #03a9e7);
-            padding: 5rem 0;
-            color: white;
-        }
-
-        .why-choose-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .why-choose h2 {
-            text-align: center;
-            font-size: 3rem;
-            margin-bottom: 3rem;
-            color: #fdc500;
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .benefit-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2.5rem;
-            border-radius: 20px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .benefit-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .benefit-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .benefit-card h3 {
-            color: #fdc500;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .benefit-card p {
-            opacity: 0.9;
-            line-height: 1.6;
-        }
-
-        /* FAQ Section */
-        .faq {
-            background: white;
-            padding: 5rem 0;
-        }
-
-        .faq-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .faq h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            color: #052d4a;
-            margin-bottom: 3rem;
-        }
-
-        .faq-item {
-            margin-bottom: 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-
-        .faq-question {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            color: #052d4a;
-            transition: all 0.3s ease;
-        }
-
-        .faq-question:hover {
-            background: #fdc500;
-            color: white;
-        }
-
-        .faq-answer {
-            padding: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .faq-answer.open {
-            padding: 1.5rem;
-            max-height: 200px;
-        }
-
-        .faq-toggle {
-            font-size: 1.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .faq-item.open .faq-toggle {
-            transform: rotate(180deg);
-        }
-
-        /* CTA Section */
-        .cta-section {
-            background: linear-gradient(135deg, #fdc500, #ee3238);
-            padding: 4rem 0;
-            text-align: center;
-        }
-
-        .cta-content {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .cta-section h2 {
-            color: white;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .cta-section p {
-            color: white;
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .cta-btn {
-            background: white;
-            color: #052d4a;
-            padding: 1.2rem 3rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-            font-family: 'Avenir', sans-serif;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-        /* Footer */
-        .footer {
-            background: #052d4a;
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .footer p {
-            opacity: 0.8;
-            font-size: 0.9rem;
-        }
-
-        /* Hidden class for conditional form field */
-        .hidden {
-            display: none;
-        }
-
-        /* Mobile Responsive Design */
-        @media (max-width: 768px) {
-            .header {
-                padding: 1.5rem 0;
-            }
-
-            .tlc-logo {
-                height: 60px;
-            }
-
-            .tagline {
-                font-size: 1.1rem;
-            }
-
-            .hero {
-                background-attachment: scroll;
-                padding: 2rem 0;
-            }
-
-            .hero-content {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .hero-text h1 {
-                font-size: 2.2rem;
-                margin-bottom: 1rem;
-            }
-
-            .hero-text p {
-                font-size: 1.1rem;
-            }
-
-            .hero-stats {
-                gap: 1.5rem;
-                margin-top: 2rem;
-            }
-
-            .form-container {
-                padding: 2rem;
-            }
-
-            .form-container h3 {
-                font-size: 1.5rem;
-            }
-
-            .partners h2 {
-                font-size: 2rem;
-            }
-
-            .partners-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-
-            .why-choose h2 {
-                font-size: 2.2rem;
-            }
-
-            .benefits-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .benefit-card {
-                padding: 2rem;
-            }
-
-            .faq h2 {
-                font-size: 2rem;
-            }
-
-            .faq-question {
-                padding: 1rem;
-                font-size: 0.9rem;
-            }
-
-            .faq-answer.open {
-                padding: 1rem;
-            }
-
-            .cta-section h2 {
-                font-size: 2rem;
-            }
-
-            .cta-section p {
-                font-size: 1.1rem;
-            }
-
-            .cta-btn {
-                padding: 1rem 2rem;
-                font-size: 1.1rem;
-            }
-
-            .radio-group {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header-content {
-                padding: 0 1rem;
-            }
-
-            .hero-content {
-                padding: 0 1rem;
-            }
-
-            .hero-text h1 {
-                font-size: 1.8rem;
-                text-align: center;
-            }
-
-            .hero-text p {
-                font-size: 1rem;
-                text-align: center;
-            }
-
-            .form-container {
-                padding: 1.5rem;
-            }
-
-            .partners-content {
-                padding: 0 1rem;
-            }
-
-            .why-choose-content {
-                padding: 0 1rem;
-            }
-
-            .faq-content {
-                padding: 0 1rem;
-            }
-
-            .cta-content {
-                padding: 0 1rem;
-            }
-
-            .footer-content {
-                padding: 0 1rem;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-on-scroll {
-            opacity: 0;
-            animation: fadeInUp 1s ease-in-out forwards;
-        }
-
-        .benefit-card,
-        .tlc-partners-slide,
-        .faq-item {
-            animation-delay: calc(0.1s * var(--animation-order));
-        }
-
-        /* Assign animation order to elements for staggered effect */
-        .benefit-card:nth-child(1) { --animation-order: 1; }
-        .benefit-card:nth-child(2) { --animation-order: 2; }
-        .benefit-card:nth-child(3) { --animation-order: 3; }
-        .benefit-card:nth-child(4) { --animation-order: 4; }
-        .benefit-card:nth-child(5) { --animation-order: 5; }
-        .benefit-card:nth-child(6) { --animation-order: 6; }
-        .tlc-partners-slide:nth-child(1) { --animation-order: 1; }
-        .tlc-partners-slide:nth-child(2) { --animation-order: 2; }
-        .tlc-partners-slide:nth-child(3) { --animation-order: 3; }
-        .tlc-partners-slide:nth-child(4) { --animation-order: 4; }
-        .tlc-partners-slide:nth-child(5) { --animation-order: 5; }
-        .tlc-partners-slide:nth-child(6) { --animation-order: 6; }
-        .tlc-partners-slide:nth-child(7) { --animation-order: 7; }
-        .tlc-partners-slide:nth-child(8) { --animation-order: 8; }
-        .tlc-partners-slide:nth-child(9) { --animation-order: 9; }
-        .tlc-partners-slide:nth-child(10) { --animation-order: 10; }
-        .faq-item:nth-child(1) { --animation-order: 1; }
-        .faq-item:nth-child(2) { --animation-order: 2; }
-        .faq-item:nth-child(3) { --animation-order: 3; }
-
-        .promo-red-text {
-            color: #ee3238;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-top: 0.3rem;
-            text-align: center;
-            line-height: 1.5;
-            word-break: break-word;
-        }
-        .promo-tnc {
-            font-size: 0.95em;
-            font-weight: 400;
-            color: #333;
-        }
-        @media (max-width: 768px) {
-            .promo-red-text {
-                font-size: 1rem;
-                max-width: 100%;
-                padding: 0 10px;
-            }
-        }
-        @media (max-width: 480px) {
-            .promo-red-text {
-                font-size: 0.95rem;
-                padding: 0 4px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Header -->
@@ -725,9 +14,7 @@
             <img src="https://theloanconnection.com.sg/wp-content/uploads/2024/11/logo-of-tlc.png" alt="The Loan Connection" class="tlc-logo">
             <div class="tagline">Singapore's Most Trusted Mortgage Broker – Unbiased, Fast & Free</div>
             <div class="promo-red-text">
-                Refinance your home loan from just 2.60% — with fixed rates starting at 3.70% and enjoy up to $2,800 in subsidies. Limited-time offer. Enquire today to lock in your
-
-System: rate.<br>
+                Refinance your home loan from just 2.60% — with fixed rates starting at 3.70% and enjoy up to $2,800 in subsidies. Limited-time offer. Enquire today to lock in your rate.<br>
                 <span class="promo-tnc">(<em>Minimum loan amount and T&Cs apply.</em>)</span>
             </div>
         </div>
@@ -835,45 +122,167 @@ System: rate.<br>
         </div>
     </section>
 
-    <!-- Why Choose Us Section -->
+<!-- Google Reviews Section -->
+    <section class="reviews-section">
+        <div class="reviews-content">
+            <div class="reviews-header">
+                <h2>What Our Clients Say</h2>
+                <p class="reviews-subtitle">Trusted by hundreds of satisfied homeowners across Singapore</p>
+                
+                <div class="google-rating">
+                    <div class="google-logo">Google</div>
+                    <div class="stars">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <div class="rating-text">5.0 Rating</div>
+                </div>
+            </div>
+
+            <div class="slider-container">
+                <div class="slider-wrapper">
+                    <div class="review-card-container">
+                        <!-- Review 1 -->
+                        <div class="review-card active">
+                            <div class="review-text">
+                                Dexter has been a great help in our mortgage journey. Especially as a first time home owner, we had many queries. Dexter was knowledgeable, prompt and thorough in addressing our queries, and provided frequent updates and follow ups. Would definitely recommend his services to anyone looking to purchase their first home or to decouple.
+                            </div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-avatar">YC</div>
+                                <div class="reviewer-details">
+                                    <h4>Yt Chng</h4>
+                                    <div class="reviewer-stars">
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review 2 -->
+                        <div class="review-card">
+                            <div class="review-text">
+                                I have engaged Dexter on mortgage loan advice since 2022. He is professional and knowledgeable and trustworthy. He is very responsive and will often go the extra mile to check and calculate for me the difference in the bank loans and make data informed recommendation. I highly recommend the services provided by Dexter.
+                            </div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-avatar">GT</div>
+                                <div class="reviewer-details">
+                                    <h4>Gabriel Tan</h4>
+                                    <div class="reviewer-stars">
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review 3 -->
+                        <div class="review-card">
+                            <div class="review-text">
+                                Dexter is not just my mortgage advisor—he is also my trusted go-to expert for my clients' mortgage needs as well. I have complete confidence in his ability to provide sound advice, ensuring the best outcomes for those I refer to him. Beyond his unwavering commitment to finding optimal solutions, Dexter upholds the highest standards of professionalism. He is always honest, unbiased, and analytical, tailoring every recommendation to your unique needs and circumstances. His clear and insightful explanations of mortgage rates make the decision-making process effortless and well-informed.
+                            </div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-avatar">RL</div>
+                                <div class="reviewer-details">
+                                    <h4>Rong Tzuu Lee</h4>
+                                    <div class="reviewer-stars">
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="nav-buttons">
+                    <button class="nav-btn" id="prevBtn">‹</button>
+                    <button class="nav-btn" id="nextBtn">›</button>
+                </div>
+
+                <!-- Dots Indicator -->
+                <div class="dots-container" id="dotsContainer">
+                    <span class="dot active" data-slide="0"></span>
+                    <span class="dot" data-slide="1"></span>
+                    <span class="dot" data-slide="2"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+<!-- Why Choose Us Section -->
     <section class="why-choose">
         <div class="why-choose-content">
             <h2>Why Choose The Loan Connection?</h2>
+            <p class="section-subtitle">We're committed to finding you the best loan solutions with unmatched service and expertise</p>
+            
             <div class="benefits-grid">
                 <div class="benefit-card">
-                    <div class="benefit-icon">✅</div>
-                    <h3>Unbiased Advice</h3>
+                    <div class="benefit-header">
+                        <div class="benefit-icon">✅</div>
+                        <h3>Unbiased Advice</h3>
+                    </div>
                     <p>We work for you, not the banks. Our recommendations are based solely on what's best for your situation.</p>
                 </div>
+                
                 <div class="benefit-card">
-                    <div class="benefit-icon">⏱️</div>
-                    <h3>Fast Loan Comparison</h3>
+                    <div class="benefit-header">
+                        <div class="benefit-icon">⏱️</div>
+                        <h3>Fast Loan Comparison</h3>
+                    </div>
                     <p>Compare rates from 16+ banks in minutes. No need to visit multiple banks or fill out endless forms.</p>
                 </div>
+                
                 <div class="benefit-card">
-                    <div class="benefit-icon">💸</div>
-                    <h3>Best Rates Negotiated</h3>
+                    <div class="benefit-header">
+                        <div class="benefit-icon">💸</div>
+                        <h3>Best Rates Negotiated</h3>
+                    </div>
                     <p>Our strong relationships with banks mean we can often secure better rates than you'd get on your own.</p>
                 </div>
+                
                 <div class="benefit-card">
-                    <div class="benefit-icon">🧾</div>
-                    <h3>100% Free Service</h3>
+                    <div class="benefit-header">
+                        <div class="benefit-icon">🧾</div>
+                        <h3>100% Free Service</h3>
+                    </div>
                     <p>We don't charge you a single dollar. Banks pay us, but we stay completely unbiased in our recommendations.</p>
                 </div>
+                
                 <div class="benefit-card">
-                    <div class="benefit-icon">🎁</div>
-                    <h3>Partner Rewards</h3>
+                    <div class="benefit-header">
+                        <div class="benefit-icon">🎁</div>
+                        <h3>Partner Rewards</h3>
+                    </div>
                     <p>Our clients get exclusive access to special deals and promotional offers from our trusted banking partnerships.</p>
                 </div>
+                
                 <div class="benefit-card">
-                    <div class="benefit-icon">💰</div>
-                    <h3>Referral Rewards</h3>
+                    <div class="benefit-header">
+                        <div class="benefit-icon">💰</div>
+                        <h3>Referral Rewards</h3>
+                    </div>
                     <p>Refer a friend and receive up to $1,500 as a token of our gratitude when they successfully secure their loan.</p>
                 </div>
             </div>
         </div>
     </section>
 
+    
     <!-- FAQ Section -->
     <section class="faq">
         <div class="faq-content">
@@ -924,220 +333,6 @@ System: rate.<br>
         </div>
     </footer>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const loanTypeRadios = document.querySelectorAll('input[name="loanType"]');
-        const currentBankGroup = document.getElementById('currentBankGroup');
-        const currentBankInput = document.getElementById('currentBank');
-
-        // ✅ Get partner ID from URL
-        const params = new URLSearchParams(window.location.search);
-        const partnerId = params.get("partner"); // e.g., 'john123'
-
-        // ✅ Create hidden input to store partner ID
-        const hiddenInput = document.createElement("input");
-        hiddenInput.type = "hidden";
-        hiddenInput.name = "partnerId";
-        hiddenInput.value = partnerId || '';
-        document.getElementById("loanForm").appendChild(hiddenInput);
-
-        // Show/hide current bank based on loan type
-        loanTypeRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.value === 'refinance') {
-                    currentBankGroup.classList.remove('hidden');
-                    currentBankInput.required = true;
-                } else {
-                    currentBankGroup.classList.add('hidden');
-                    currentBankInput.required = false;
-                    currentBankInput.value = '';
-                }
-            });
-        });
-
-        // ✅ Handle form submission to WhatsApp
-        document.getElementById('loanForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-
-            let message = `Hello! I'm interested in a mortgage loan. Here are my details:\n\n`;
-            message += `Name: ${data.name}\n`;
-            message += `Contact: ${data.contact}\n`;
-            message += `Email: ${data.email}\n`;
-            message += `Loan Type: ${data.loanType === 'new-loan' ? 'New Loan' : 'Refinance'}\n`;
-            message += `Loan Amount: SGD ${parseInt(data.amount).toLocaleString()}\n`;
-
-            if (data.loanType === 'refinance' && data.currentBank) {
-                message += `Current Bank: ${data.currentBank}\n`;
-            }
-
-            if (partnerId) {
-                message += `\n[Tracking: Partner ID = ${partnerId}]`;
-            }
-
-            message += `\n\nPlease help me find the best mortgage rates. Thank you!`;
-
-            const whatsappUrl = `https://wa.me/6594657429?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-        });
-
-        // FAQ toggle
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', function() {
-                const faqItem = this.parentElement;
-                const answer = faqItem.querySelector('.faq-answer');
-
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    if (item !== faqItem) {
-                        item.classList.remove('open');
-                        item.querySelector('.faq-answer').classList.remove('open');
-                    }
-                });
-
-                faqItem.classList.toggle('open');
-                answer.classList.toggle('open');
-            });
-        });
-
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-on-scroll');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.benefit-card, .tlc-partners-slide, .faq-item').forEach(el => {
-            observer.observe(el);
-        });
-    });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
-
-
-<!--
-First version of JS:
-<script>
-        // Form functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const loanTypeRadios = document.querySelectorAll('input[name="loanType"]');
-            const currentBankGroup = document.getElementById('currentBankGroup');
-            const currentBankInput = document.getElementById('currentBank');
-
-            // Handle loan type change
-            loanTypeRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    if (this.value === 'refinance') {
-                        currentBankGroup.classList.remove('hidden');
-                        currentBankInput.required = true;
-                    } else {
-                        currentBankGroup.classList.add('hidden');
-                        currentBankInput.required = false;
-                        currentBankInput.value = '';
-                    }
-                });
-            });
-
-            // Handle form submission
-            document.getElementById('loanForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const formData = new FormData(this);
-                const data = Object.fromEntries(formData);
-                
-                // Create WhatsApp message
-                let message = `Hello! I'm interested in a mortgage loan. Here are my details:\n\n`;
-                message += `Name: ${data.name}\n`;
-                message += `Contact: ${data.contact}\n`;
-                message += `Email: ${data.email}\n`;
-                message += `Loan Type: ${data.loanType === 'new-loan' ? 'New Loan' : 'Refinance'}\n`;
-                message += `Loan Amount: SGD ${parseInt(data.amount).toLocaleString()}\n`;
-                
-                if (data.loanType === 'refinance' && data.currentBank) {
-                    message += `Current Bank: ${data.currentBank}\n`;
-                }
-                
-                message += `\nPlease help me find the best mortgage rates. Thank you!`;
-                
-                // Open WhatsApp
-                const whatsappUrl = `https://wa.me/6512345678?text=${encodeURIComponent(message)}`;
-                window.open(whatsappUrl, '_blank');
-            });
-
-            // FAQ functionality
-            document.querySelectorAll('.faq-question').forEach(question => {
-                question.addEventListener('click', function() {
-                    const faqItem = this.parentElement;
-                    const answer = faqItem.querySelector('.faq-answer');
-                    
-                    // Close other FAQs
-                    document.querySelectorAll('.faq-item').forEach(item => {
-                        if (item !== faqItem) {
-                            item.classList.remove('open');
-                            item.querySelector('.faq-answer').classList.remove('open');
-                        }
-                    });
-                    
-                    // Toggle current FAQ
-                    faqItem.classList.toggle('open');
-                    answer.classList.toggle('open');
-                });
-            });
-
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-
-            // Add scroll animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-on-scroll');
-                    }
-                });
-            }, observerOptions);
-
-            // Observe elements for animation
-            document.querySelectorAll('.benefit-card, .tlc-partners-slide, .faq-item').forEach(el => {
-                observer.observe(el);
-            });
-        });
-    </script> -->
