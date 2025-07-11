@@ -100,68 +100,241 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-//  Stable text slider functionality
-        let currentSlide = 0;
-        const totalSlides = 3;
-        const reviewCards = document.querySelectorAll('.review-card');
-        const prevBtn = document.getElementById('prevBtn');
+// //  Stable text slider functionality
+//         let currentSlide = 0;
+//         const totalSlides = 3;
+//         const reviewCards = document.querySelectorAll('.review-card');
+//         const prevBtn = document.getElementById('prevBtn');
+//         const nextBtn = document.getElementById('nextBtn');
+//         const dots = document.querySelectorAll('.dot');
+
+//         function updateSlider() {
+//             // Hide all cards
+//             reviewCards.forEach((card, index) => {
+//                 card.classList.remove('active');
+//             });
+            
+//             // Show current card
+//             reviewCards[currentSlide].classList.add('active');
+            
+//             // Update dots
+//             dots.forEach((dot, index) => {
+//                 dot.classList.toggle('active', index === currentSlide);
+//             });
+            
+//             // Update button states - allow continuous cycling
+//             prevBtn.disabled = false;
+//             nextBtn.disabled = false;
+//         }
+
+//         function nextSlide() {
+//             currentSlide = (currentSlide + 1) % totalSlides;
+//             updateSlider();
+//         }
+
+//         function prevSlide() {
+//             currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+//             updateSlider();
+//         }
+
+//         function goToSlide(slideIndex) {
+//             currentSlide = slideIndex;
+//             updateSlider();
+//         }
+
+//         // Event listeners
+//         nextBtn.addEventListener('click', nextSlide);
+//         prevBtn.addEventListener('click', prevSlide);
+
+//         dots.forEach((dot, index) => {
+//             dot.addEventListener('click', () => goToSlide(index));
+//         });
+
+//         // Auto-play functionality
+//         let autoPlayInterval = setInterval(nextSlide, 6000);
+
+//         // Pause auto-play on hover
+//         const sliderContainer = document.querySelector('.slider-container');
+//         sliderContainer.addEventListener('mouseenter', () => {
+//             clearInterval(autoPlayInterval);
+//         });
+
+//         sliderContainer.addEventListener('mouseleave', () => {
+//             autoPlayInterval = setInterval(nextSlide, 6000);
+//         });
+
+//         // Initialize
+//         updateSlider();
+
+const form = document.getElementById('loanForm');
         const nextBtn = document.getElementById('nextBtn');
-        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const progressFill = document.getElementById('progressFill');
+        const currentBankGroup = document.getElementById('currentBankGroup');
+        const serviceDropdown = document.getElementById('serviceRequired');
+        const loanAmountInput = document.getElementById('loanAmount');
 
-        function updateSlider() {
-            // Hide all cards
-            reviewCards.forEach((card, index) => {
-                card.classList.remove('active');
-            });
-            
-            // Show current card
-            reviewCards[currentSlide].classList.add('active');
-            
-            // Update dots
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
-            });
-            
-            // Update button states - allow continuous cycling
-            prevBtn.disabled = false;
-            nextBtn.disabled = false;
-        }
-
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            updateSlider();
-        }
-
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-            updateSlider();
-        }
-
-        function goToSlide(slideIndex) {
-            currentSlide = slideIndex;
-            updateSlider();
-        }
-
-        // Event listeners
-        nextBtn.addEventListener('click', nextSlide);
-        prevBtn.addEventListener('click', prevSlide);
-
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => goToSlide(index));
-        });
-
-        // Auto-play functionality
-        let autoPlayInterval = setInterval(nextSlide, 6000);
-
-        // Pause auto-play on hover
-        const sliderContainer = document.querySelector('.slider-container');
-        sliderContainer.addEventListener('mouseenter', () => {
-            clearInterval(autoPlayInterval);
-        });
-
-        sliderContainer.addEventListener('mouseleave', () => {
-            autoPlayInterval = setInterval(nextSlide, 6000);
-        });
+        let currentPage = 1;
+        const totalPages = 2;
 
         // Initialize
-        updateSlider();
+        updateProgress();
+        updateCurrentBankVisibility();
+
+        // Handle service selection change
+        serviceDropdown.addEventListener('change', updateCurrentBankVisibility);
+
+        // Handle loan amount formatting
+        loanAmountInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d]/g, '');
+            if (value) {
+                value = parseInt(value).toLocaleString();
+            }
+            e.target.value = value;
+        });
+
+        function updateCurrentBankVisibility() {
+            const selectedService = serviceDropdown.value;
+            if (selectedService === 'new-purchase' || selectedService === '') {
+                currentBankGroup.classList.add('hidden');
+                document.getElementById('currentBank').removeAttribute('required');
+            } else {
+                currentBankGroup.classList.remove('hidden');
+                document.getElementById('currentBank').setAttribute('required', 'required');
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentPage / totalPages) * 100;
+            progressFill.style.width = `${progress}%`;
+            
+            // Update step indicators
+            document.querySelectorAll('.step').forEach((step, index) => {
+                if (index + 1 <= currentPage) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+        }
+
+        function showPage(pageNumber) {
+            document.querySelectorAll('.form-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(`page${pageNumber}`).classList.add('active');
+            currentPage = pageNumber;
+            updateProgress();
+        }
+
+        function validateCurrentPage() {
+            const currentPageElement = document.getElementById(`page${currentPage}`);
+            const requiredFields = currentPageElement.querySelectorAll('[required]');
+            
+            for (let field of requiredFields) {
+                if (!field.value.trim()) {
+                    field.focus();
+                    return false;
+                }
+            }
+            
+            // Special validation for loan amount
+            if (currentPage === 1) {
+                const loanAmountValue = document.getElementById('loanAmount').value.replace(/[^\d]/g, '');
+                if (loanAmountValue && parseInt(loanAmountValue) < 100000) {
+                    alert('Minimum loan amount is $100,000');
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (validateCurrentPage()) {
+                showPage(2);
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            showPage(1);
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (validateCurrentPage()) {
+                // Simulate form submission
+                setTimeout(() => {
+                    document.getElementById('page2').classList.remove('active');
+                    document.getElementById('successPage').classList.add('active');
+                }, 500);
+            }
+        });
+        
+
+        // Review slider functionality
+        class ReviewSlider {
+            constructor() {
+                this.currentSlide = 0;
+                this.slides = document.querySelectorAll('.review-item');
+                this.dots = document.querySelectorAll('.control-dot');
+                this.totalSlides = this.slides.length;
+                this.autoSlideInterval = null;
+                
+                this.init();
+            }
+            
+            init() {
+                // Add click event listeners to dots
+                this.dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        this.goToSlide(index);
+                    });
+                });
+                
+                // Start auto-slide
+                this.startAutoSlide();
+                
+                // Pause auto-slide on hover
+                const container = document.querySelector('.review-slider-container');
+                container.addEventListener('mouseenter', () => this.pauseAutoSlide());
+                container.addEventListener('mouseleave', () => this.startAutoSlide());
+            }
+            
+            goToSlide(index) {
+                // Remove active class from current slide and dot
+                this.slides[this.currentSlide].classList.remove('active');
+                this.dots[this.currentSlide].classList.remove('active');
+                
+                // Update current slide
+                this.currentSlide = index;
+                
+                // Add active class to new slide and dot
+                this.slides[this.currentSlide].classList.add('active');
+                this.dots[this.currentSlide].classList.add('active');
+            }
+            
+            nextSlide() {
+                const nextIndex = (this.currentSlide + 1) % this.totalSlides;
+                this.goToSlide(nextIndex);
+            }
+            
+            startAutoSlide() {
+                this.autoSlideInterval = setInterval(() => {
+                    this.nextSlide();
+                }, 5000); // Change slide every 5 seconds
+            }
+            
+            pauseAutoSlide() {
+                if (this.autoSlideInterval) {
+                    clearInterval(this.autoSlideInterval);
+                    this.autoSlideInterval = null;
+                }
+            }
+        }
+        
+        // Initialize the slider when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new ReviewSlider();
+        });
