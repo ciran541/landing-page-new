@@ -1,3 +1,4 @@
+
         * {
             margin: 0;
             padding: 0;
@@ -5,20 +6,21 @@
         }
 
         body {
-            font-family: 'Avenir', sans-serif;
+            font-family: 'Avenir', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: #333;
             overflow-x: hidden;
         }
-        /* Optimized Header */
+
+        /* Optimized Header - Removed heavy backdrop-filter */
         .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.97);
             padding: 1.5rem 0;
             position: relative;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
-            border-bottom: 3px solid transparent;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-bottom: 3px solid;
             border-image: linear-gradient(90deg, #fdc500, #ee3238, #fdc500) 1;
+            will-change: transform;
         }
 
         .header-content {
@@ -35,7 +37,7 @@
         .tlc-logo {
             height: 90px;
             width: auto;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
             transition: transform 0.2s ease;
         }
 
@@ -58,33 +60,11 @@
             position: relative;
         }
 
-        /* .highlight-rates::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #ee3238;
-            border-radius: 1px;
-        } */
-
         .highlight-cash {
             color: #03a9e7;
             font-weight: 700;
             position: relative;
         }
-
-        /* .highlight-cash::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #fdc500;
-            border-radius: 1px;
-        } */
 
         .promo-red-text {
             color: #052d4a;
@@ -98,17 +78,18 @@
             font-weight: 400;
         }
 
-/* Optimized Hero Section */
+        /* Optimized Hero Section - Fixed the parallax issue */
         .hero {
-            background: linear-gradient(rgba(5, 45, 74, 0.85), rgba(5, 45, 74, 0.85));
-            background-color: #052d4a;
+            background: #052d4a;
             min-height: 90vh;
             display: flex;
             align-items: center;
             padding: 3rem 0;
             position: relative;
+            overflow: hidden;
         }
 
+        /* Optimized background image - removed fixed attachment */
         .hero::before {
             content: '';
             position: absolute;
@@ -119,11 +100,11 @@
             background-image: url('https://theloanconnection.com.sg/wp-content/uploads/2025/01/aur.png');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed; /* <-- This is the key */
+            background-repeat: no-repeat;
             opacity: 0.3;
             z-index: 1;
+            will-change: transform;
         }
-
 
         .hero-content {
             max-width: 1200px;
@@ -142,13 +123,13 @@
             font-weight: 700;
             color: #fdc500;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
             line-height: 1.2;
         }
 
         .hero-text p {
             font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.95);
             margin-bottom: 2rem;
             line-height: 1.6;
         }
@@ -166,8 +147,13 @@
             background: rgba(255, 255, 255, 0.1);
             padding: 1.5rem;
             border-radius: 12px;
-            backdrop-filter: blur(5px);
             border: 1px solid rgba(253, 197, 0, 0.3);
+            backdrop-filter: blur(5px);
+            transition: transform 0.2s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
         }
 
         .stat-number {
@@ -184,29 +170,18 @@
             margin-top: 0.5rem;
         }
 
-        /* Optimized Form Container */
+        /* Optimized Form Container - Reduced backdrop-filter usage */
         .form-container {
             background: rgba(255, 255, 255, 0.98);
             padding: 2.5rem;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             border: 1px solid rgba(253, 197, 0, 0.3);
             max-width: 550px;
             width: 100%;
             position: relative;
+            backdrop-filter: blur(10px);
         }
-
-        /* .form-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #fdc500, #ee3238);
-            border-radius: 20px 20px 0 0;
-        } */
 
         .form-header {
             text-align: center;
@@ -391,6 +366,7 @@
             font-size: 1.5rem;
             margin-bottom: 1rem;
         }
+
         /* Mobile Responsive Design */
         @media (max-width: 768px) {
             .header {
@@ -449,7 +425,6 @@
 
             .form-container {
                 padding: 1.5rem;
-                
             }
             
             .form-header h3 {
@@ -495,6 +470,17 @@
                 padding: 0.8rem 1.5rem;
                 font-size: 0.9rem;
             }
+        }
+
+        /* Performance optimizations */
+        .hero::before {
+            transform: translateZ(0);
+        }
+
+        .stat-item,
+        .form-container,
+        .tlc-logo {
+            transform: translateZ(0);
         }
 /* Partners Section */
 .partners {
