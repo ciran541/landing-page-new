@@ -359,7 +359,7 @@
             }
 
             .profile-image {
-                height: 400px;
+                height: 480px;
                 object-position: center 20%;
                 transform: scale(0.9);
             }
@@ -395,11 +395,11 @@
             }
 
             .profile-section {
-                height: 420px;
+                height: 440px;
             }
 
             .profile-image {
-                height: 440px;
+                height: 480px;
                 object-position: center 35%;
                 transform: scale(1);
             }
