@@ -655,3 +655,12 @@
     }
 }
 
+@media (max-width: 900px) and (orientation: landscape) {
+  .profile-section,
+  .profile-image {
+    height: 60vh !important;
+    max-height: 100vw;
+    object-fit: cover;
+  }
+}
+
