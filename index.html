@@ -6,140 +6,67 @@
     <title>The Loan Connection - Singapore's Most Trusted Mortgage Broker</title>
     <link href="https://fonts.googleapis.com/css2?family=Avenir:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="review.css">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="header-content">
             <img src="https://theloanconnection.com.sg/wp-content/uploads/2025/07/4-removebg-preview-1-1-e1752232237493.png" alt="The Loan Connection" class="tlc-logo">
-            <div class="tagline">Secure the lowest fixed rates from 1.95% or floating spreads from 0.25% when we facilitate your mortgage! 
-</div>
+            <div class="tagline">
+                Secure the lowest fixed rates from <span class="highlight-rates">1.95%</span> or floating spreads from <span class="highlight-rates">0.25%</span> when we facilitate your mortgage!
+            </div>
             <div class="promo-red-text">
-                Also enjoy referral rewards up to $1500 cash when you refer-a-friend to us!<br>
+                Also enjoy referral rewards up to <span class="highlight-cash">$1500 cash</span> when you refer-a-friend to us!<br>
                 <span class="promo-tnc">(<em>Minimum loan amount and T&Cs apply.</em>)</span>
             </div>
         </div>
     </header>
 
-<!-- Reviews Section -->
-    <section class="reviews-section">
-        <div class="reviews-container">
-            <!-- Corporate Image Section -->
-            <div class="corporate-image-section">
-                <img src="https://theloanconnection.com.sg/wp-content/uploads/2025/07/dexter-cor.png" 
-                     alt="Dexter - Mortgage Advisor" 
-                     class="corporate-image">
-                <div class="image-overlay">
-                    <h3>Dexter Sim</h3>
-                    <p>Your Trusted Mortgage Advisor</p>
-                </div>
+
+    <!-- Review Section -->
+   <section class="review" id="review">
+    <div class="review-container">
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+
+        <div class="profile-section">
+            <img src="https://theloanconnection.com.sg/wp-content/uploads/2025/07/dexter-cor-e1752322288590.png" alt="Dexter Sim" class="profile-image">
+            <div class="profile-overlay">
+                <div class="profile-name">Dexter Sim</div>
+                <div class="profile-title">Your Mortgage Advisor</div>
+            </div>
+        </div>
+
+        <div class="review-section">
+            <div class="review-header">What our clients say</div>
+
+            <div class="review-content" id="reviewContent">
+                <!-- Reviews will be dynamically generated here -->
             </div>
 
-            <!-- Google Reviews Section -->
-            <div class="google-reviews-section">
-                <div class="google-reviews-header">
-                    <div class="google-logo">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M22.56 12.25C22.56 11.47 22.49 10.72 22.36 10H12V14.26H17.92C17.67 15.53 16.89 16.58 15.75 17.25V20.14H19.28C21.36 18.25 22.56 15.53 22.56 12.25Z" fill="#4285F4"/>
-                            <path d="M12 23C15.24 23 17.96 21.92 19.28 20.14L15.75 17.25C14.74 17.81 13.48 18.16 12 18.16C8.87 18.16 6.22 16.42 5.27 13.86H1.64V16.82C2.96 19.45 7.17 23 12 23Z" fill="#34A853"/>
-                            <path d="M5.27 13.86C5.05 13.3 4.93 12.66 4.93 12S5.05 10.7 5.27 10.14V7.18H1.64C0.95 8.55 0.56 10.22 0.56 12S0.95 15.45 1.64 16.82L5.27 13.86Z" fill="#FBBC05"/>
-                            <path d="M12 5.84C13.62 5.84 15.06 6.35 16.19 7.42L19.36 4.25C17.96 2.98 15.24 2 12 2C7.17 2 2.96 5.55 1.64 8.18L5.27 11.14C6.22 8.58 8.87 6.84 12 6.84Z" fill="#EA4335"/>
-                        </svg>
-                        <span>Google Reviews</span>
-                    </div>
-                    
-                    <div class="reviews-stats">
-                        <div class="rating-display">
-                            <div class="rating-stars">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                            </div>
-                            <span class="rating-text">5.0</span>
-                        </div>
-                        <span class="total-reviews">Based on 118 reviews</span>
-                    </div>
-                    
-                    <p class="reviews-subtitle">See what our clients say about us</p>
+            <div class="review-footer">
+                <div class="google-info">
+                    <svg class="google-logo" viewBox="0 0 24 24">
+                        <path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    <div class="rating-info">5.0 ★ 118 reviews</div>
                 </div>
-
-                <div class="review-slider-container">
-                    <div class="review-content">
-                        <!-- Review 1 -->
-                        <div class="review-item active">
-                            <div class="review-text">
-                                Dexter has been a great help in our mortgage journey. Especially as a first time home owner, we had many queries. Dexter was knowledgeable, prompt and thorough in addressing our queries, and provided frequent updates and follow ups. Would definitely recommend his services to anyone looking to purchase their first home or to decouple.
-                            </div>
-                            <div class="reviewer-info">
-                                <div class="reviewer-avatar">YC</div>
-                                <div class="reviewer-details">
-                                    <h4>Yt Chng</h4>
-                                    <div class="reviewer-stars">
-                                        <span class="star">★</span>
-                                        <span class="star">★</span>
-                                        <span class="star">★</span>
-                                        <span class="star">★</span>
-                                        <span class="star">★</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Review 2 -->
-                        <div class="review-item">
-                            <div class="review-text">
-                                I have engaged Dexter on mortgage loan advice since 2022. He is professional and knowledgeable and trustworthy. He is very responsive and will often go the extra mile to check and calculate for me the difference in the bank loans and make data informed recommendation. I highly recommend the services provided by Dexter.
-                            </div>
-                            <div class="reviewer-info">
-                                <div class="reviewer-avatar">GT</div>
-                                <div class="reviewer-details">
-                                    <h4>Gabriel Tan</h4>
-                                    <div class="reviewer-stars">
-                                        <span class="star">★</span>
-                                        <span class="star">★</span>
-                                        <span class="star">★</span>
-                                        <span class="star">★</span>
-                                        <span class="star">★</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Review 3 -->
-                        <div class="review-item">
-                            <div class="review-text">
-                                Dexter is not just my mortgage advisor—he is also my trusted go-to expert for my clients' mortgage needs as well. I have complete confidence in his ability to provide sound advice, ensuring the best outcomes for those I refer to him. Beyond his unwavering commitment to finding optimal solutions, Dexter upholds the highest standards of professionalism.
-                            </div>
-                            <div class="reviewer-info">
-                                <div class="reviewer-avatar">RL</div>
-                                <div class="reviewer-details">
-                                    <h4>Rong Tzuu Lee</h4>
-                                    <div class="reviewer-stars">
-                                        <span class="star">★</span>
-                                        <span class="star">★</span>
-                                        <span class="star">★</span>
-                                        <span class="star">★</span>
-                                        <span class="star">★</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slider Controls -->
-                    <div class="slider-controls">
-                        <div class="control-dot active" data-slide="0"></div>
-                        <div class="control-dot" data-slide="1"></div>
-                        <div class="control-dot" data-slide="2"></div>
-                    </div>
+                <div class="navigation" id="navigation">
+                    <!-- Navigation dots will be dynamically generated here -->
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Hero Section -->
+<!-- Hero Section -->
     <section class="hero" id="hero">
         <div class="hero-content">
             <div class="hero-text">
@@ -156,115 +83,116 @@
                     </div>
                 </div>
             </div>
-<div class="form-container">
-        <div class="form-header">
-            <h3>Get Your Free Quote Today</h3>
-            <p>Complete the form in 2 simple steps</p>
-        </div>
+            
+            <div class="form-container">
+                <div class="form-header">
+                    <h3>Get Your Free Quote Today</h3>
+                    <p>Complete the form in 2 simple steps</p>
+                </div>
 
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
 
-        <div class="step-indicator">
-            <div class="step active" id="step1">
-                <div class="step-number">1</div>
-                <span>Loan Details</span>
+                <div class="step-indicator">
+                    <div class="step active" id="step1">
+                        <div class="step-number">1</div>
+                        <span>Loan Details</span>
+                    </div>
+                    <div class="step" id="step2">
+                        <div class="step-number">2</div>
+                        <span>Personal Info</span>
+                    </div>
+                </div>
+
+                <form id="loanForm">
+                    <!-- Page 1: Loan Details -->
+                    <div class="form-page active" id="page1">
+                        <div class="form-group">
+                            <label for="propertyType">Type of Property</label>
+                            <select id="propertyType" name="propertyType" required>
+                                <option value="">Select property type</option>
+                                <option value="BTO">BTO</option>
+                                <option value="HDB-Completed">HDB (Completed)</option>
+                                <option value="Private-Condo-Completed">Private Condo (Completed)</option>
+                                <option value="Private-New-Launch-Condo">Private New Launch Condo</option>
+                                <option value="Private-New-Launch-EC">Private New Launch EC</option>
+                                <option value="Landed">Landed</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="serviceRequired">Service Required</label>
+                            <select id="serviceRequired" name="serviceRequired" required>
+                                <option value="">Select service required</option>
+                                <option value="new-purchase">New Purchase</option>
+                                <option value="refinancing">Refinancing</option>
+                                <option value="equity-term-loan">Equity Term Loan</option>
+                                <option value="decoupling">Decoupling</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group hidden" id="currentBankGroup">
+                            <label for="currentBank">Current Bank</label>
+                            <select id="currentBank" name="currentBank">
+                                <option value="">Select current bank</option>
+                                <option value="DBS">DBS</option>
+                                <option value="OCBC">OCBC</option>
+                                <option value="UOB">UOB</option>
+                                <option value="Maybank">Maybank</option>
+                                <option value="SCB">SCB</option>
+                                <option value="HSBC">HSBC</option>
+                                <option value="BOC">BOC</option>
+                                <option value="RHB">RHB</option>
+                                <option value="CITI">CITI</option>
+                                <option value="Hong-Leong-Finance">Hong Leong Finance</option>
+                                <option value="Others">Others</option>
+                                <option value="Not-Applicable">Not Applicable</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="loanAmount">Loan Amount (SGD)</label>
+                            <input type="text" id="loanAmount" name="loanAmount" placeholder="e.g., 800,000" required>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="button" class="btn btn-primary" id="nextBtn">Next Step</button>
+                        </div>
+                    </div>
+
+                    <!-- Page 2: Personal Details -->
+                    <div class="form-page" id="page2">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number</label>
+                            <input type="tel" id="phoneNumber" name="phoneNumber" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="emailAddress">Email Address</label>
+                            <input type="email" id="emailAddress" name="emailAddress" required>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="button" class="btn btn-secondary" id="prevBtn">Previous</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+
+                    <!-- Success Message -->
+                    <div class="form-page" id="successPage">
+                        <div class="success-message">
+                            <h4>🎉 Thank you for your submission!</h4>
+                            <p>We've received your loan application and will get back to you within 24 hours with your personalized quote.</p>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="step" id="step2">
-                <div class="step-number">2</div>
-                <span>Personal Info</span>
-            </div>
-        </div>
-
-        <form id="loanForm">
-            <!-- Page 1: Loan Details -->
-            <div class="form-page active" id="page1">
-                <div class="form-group">
-                    <label for="propertyType">Type of Property</label>
-                    <select id="propertyType" name="propertyType" required>
-                        <option value="">Select property type</option>
-                        <option value="BTO">BTO</option>
-                        <option value="HDB-Completed">HDB (Completed)</option>
-                        <option value="Private-Condo-Completed">Private Condo (Completed)</option>
-                        <option value="Private-New-Launch-Condo">Private New Launch Condo</option>
-                        <option value="Private-New-Launch-EC">Private New Launch EC</option>
-                        <option value="Landed">Landed</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="serviceRequired">Service Required</label>
-                    <select id="serviceRequired" name="serviceRequired" required>
-                        <option value="">Select service required</option>
-                        <option value="new-purchase">New Purchase</option>
-                        <option value="refinancing">Refinancing</option>
-                        <option value="equity-term-loan">Equity Term Loan</option>
-                        <option value="decoupling">Decoupling</option>
-                    </select>
-                </div>
-
-                <div class="form-group hidden" id="currentBankGroup">
-                    <label for="currentBank">Current Bank</label>
-                    <select id="currentBank" name="currentBank">
-                        <option value="">Select current bank</option>
-                        <option value="DBS">DBS</option>
-                        <option value="OCBC">OCBC</option>
-                        <option value="UOB">UOB</option>
-                        <option value="Maybank">Maybank</option>
-                        <option value="SCB">SCB</option>
-                        <option value="HSBC">HSBC</option>
-                        <option value="BOC">BOC</option>
-                        <option value="RHB">RHB</option>
-                        <option value="CITI">CITI</option>
-                        <option value="Hong-Leong-Finance">Hong Leong Finance</option>
-                        <option value="Others">Others</option>
-                        <option value="Not-Applicable">Not Applicable</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="loanAmount">Loan Amount (SGD)</label>
-                    <input type="text" id="loanAmount" name="loanAmount" placeholder="e.g., 800,000" required>
-                </div>
-
-                <div class="button-group">
-                    <button type="button" class="btn btn-primary" id="nextBtn">Next Step</button>
-                </div>
-            </div>
-
-            <!-- Page 2: Personal Details -->
-            <div class="form-page" id="page2">
-                <div class="form-group">
-                    <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" name="fullName" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="phoneNumber">Phone Number</label>
-                    <input type="tel" id="phoneNumber" name="phoneNumber" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="emailAddress">Email Address</label>
-                    <input type="email" id="emailAddress" name="emailAddress" required>
-                </div>
-
-                <div class="button-group">
-                    <button type="button" class="btn btn-secondary" id="prevBtn">Previous</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </div>
-
-            <!-- Success Message -->
-            <div class="form-page" id="successPage">
-                <div class="success-message">
-                    <h4>🎉 Thank you for your submission!</h4>
-                    <p>We've received your loan application and will get back to you within 24 hours with your personalized quote.</p>
-                </div>
-            </div>
-        </form>
-    </div>
         </div>
     </section>
 
@@ -416,5 +344,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="review.js"></script>
 </body>
 </html>
