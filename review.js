@@ -43,7 +43,7 @@ const reviewsData = [
                             </span>
                         </div>
                         <div class="reviewer-details">
-                            <div class="reviewer-name">${review.reviewer} <span class="reviewer-verified"><svg width="16" height="16" viewBox="0 0 24 24" fill="#052d4a"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg></span></div>
+                            <div class="reviewer-name">${review.reviewer} </div>
                             <div class="stars">${starsHTML}</div>
                         </div>
                     </div>

@@ -538,7 +538,7 @@
     }
 
     .profile-image {
-        height: 480px;
+        height: 500px;
         object-position: center 35%;
         transform: scale(1);
     }
