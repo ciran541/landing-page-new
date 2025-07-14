@@ -26,14 +26,27 @@ const reviewsData = [
         ];
 
         let currentReview = 0;
-        let autoPlayInterval;
         let expandedStates = {};
 
         function generateReviewHTML(review, index) {
-            const starsHTML = Array.from({length: review.rating}, () => '<div class="star"></div>').join('');
-            
+            const starsHTML = Array.from({length: review.rating}, () => `
+                <span class="star"><svg viewBox="0 0 20 20" fill="#fbbc05" xmlns="http://www.w3.org/2000/svg"><polygon points="10,1.5 12.59,7.36 19,8.09 14,12.67 15.18,19 10,15.77 4.82,19 6,12.67 1,8.09 7.41,7.36"/></svg></span>`).join('');
+            // Get initials from reviewer name
+            const initials = review.reviewer.split(' ').map(n => n[0]).join('').toUpperCase();
             return `
                 <div class="review-item ${index === 0 ? 'active' : ''}" data-index="${index}">
+                    <div class="review-meta">
+                        <div class="reviewer-avatar">
+                            ${initials}
+                            <span class="google-g-badge">
+                                <img src="https://theloanconnection.com.sg/wp-content/uploads/2025/07/google-icon-logo-svgrepo-com.svg" alt="Google G" width="18" height="18" style="display:block;" />
+                            </span>
+                        </div>
+                        <div class="reviewer-details">
+                            <div class="reviewer-name">${review.reviewer} <span class="reviewer-verified"><svg width="16" height="16" viewBox="0 0 24 24" fill="#052d4a"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg></span></div>
+                            <div class="stars">${starsHTML}</div>
+                        </div>
+                    </div>
                     <div class="review-text truncated">
                         ${review.short}
                     </div>
@@ -42,12 +55,6 @@ const reviewsData = [
                         <svg class="expand-icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
                             <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                    </div>
-                    <div class="review-meta">
-                        <div class="stars">
-                            ${starsHTML}
-                        </div>
-                        <div class="reviewer-name">— ${review.reviewer}</div>
                     </div>
                 </div>
             `;
@@ -73,12 +80,11 @@ const reviewsData = [
             navDots.forEach((dot, index) => {
                 dot.addEventListener('click', () => {
                     showReview(index);
-                    resetAutoPlay();
                 });
             });
 
             addExpandHandlers();
-            startAutoPlay();
+            addCarouselArrows();
         }
 
         function addExpandHandlers() {
@@ -121,6 +127,36 @@ const reviewsData = [
             }
         }
 
+        function addCarouselArrows() {
+            const reviewSection = document.querySelector('.review-content');
+            if (!reviewSection) return;
+            // Remove existing arrows if any
+            const oldLeft = document.querySelector('.review-carousel-arrow.left');
+            const oldRight = document.querySelector('.review-carousel-arrow.right');
+            if (oldLeft) oldLeft.remove();
+            if (oldRight) oldRight.remove();
+            // Left arrow
+            const leftArrow = document.createElement('button');
+            leftArrow.className = 'review-carousel-arrow left';
+            leftArrow.setAttribute('aria-label', 'Previous review');
+            leftArrow.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13 16L7 10L13 4" stroke="#052d4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+            leftArrow.onclick = function(e) {
+                e.stopPropagation();
+                showReview((currentReview - 1 + reviewsData.length) % reviewsData.length);
+            };
+            // Right arrow
+            const rightArrow = document.createElement('button');
+            rightArrow.className = 'review-carousel-arrow right';
+            rightArrow.setAttribute('aria-label', 'Next review');
+            rightArrow.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4L13 10L7 16" stroke="#052d4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+            rightArrow.onclick = function(e) {
+                e.stopPropagation();
+                showReview((currentReview + 1) % reviewsData.length);
+            };
+            reviewSection.appendChild(leftArrow);
+            reviewSection.appendChild(rightArrow);
+        }
+
         function showReview(index) {
             const reviewItems = document.querySelectorAll('.review-item');
             const navDots = document.querySelectorAll('.nav-dot');
@@ -134,30 +170,6 @@ const reviewsData = [
             currentReview = index;
         }
 
-        function startAutoPlay() {
-            autoPlayInterval = setInterval(() => {
-                const nextReview = (currentReview + 1) % reviewsData.length;
-                showReview(nextReview);
-            }, 8000);
-        }
-
-        function resetAutoPlay() {
-            clearInterval(autoPlayInterval);
-            startAutoPlay();
-        }
-
-        function pauseAutoPlay() {
-            clearInterval(autoPlayInterval);
-        }
-
-        function resumeAutoPlay() {
-            startAutoPlay();
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             initSlider();
-            
-            const container = document.querySelector('.review-container');
-            container.addEventListener('mouseenter', pauseAutoPlay);
-            container.addEventListener('mouseleave', resumeAutoPlay);
         });
