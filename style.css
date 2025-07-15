@@ -97,7 +97,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url('https://theloanconnection.com.sg/wp-content/uploads/2025/01/aur.png');
+            background-image: url('https://res.cloudinary.com/dheuvrpwd/image/upload/w_1920,h_1080,c_fill,f_avif,q_auto:eco/v1750225077/hero_tlc-1_vs73qu.avif');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -959,7 +959,7 @@
     
 
     .partners h2 {
-        font-size: 2rem;
+        font-size: 1.7rem;
     }
 
     .partners-grid {
@@ -968,7 +968,7 @@
     }
 
     .why-choose h2 {
-        font-size: 2.2rem;
+        font-size: 1.7rem;
     }
 
     .benefits-grid {
@@ -981,7 +981,7 @@
     }
 
     .faq h2 {
-        font-size: 2rem;
+        font-size: 1.7rem;
     }
 
     .faq-question {
@@ -994,11 +994,16 @@
     }
 
     .cta-section h2 {
-        font-size: 2rem;
+        font-size: 1.7rem;
     }
 
     .cta-section p {
         font-size: 1.1rem;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
+        margin-bottom: 1.2rem;
     }
 
     .cta-btn {
