@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Configuration
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzF7tHfY4Vd5mz-kT_EY_SB9wY_pOnSuIzl3T-cRFft21aO7p9g-qmt68G5lvo2wTOx/exec'; // Replace with your actual URL
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrOgt6UQsbseU0hu6q-ujuSuV3vfUsvYZlEWapCd4bIDREwyqgDvT-nIKkyJL-dS6B/exec'; // Replace with your actual URL
     
     // Loan form functionality
     const loanTypeRadios = document.querySelectorAll('input[name="loanType"]');
