@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Configuration
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw0LRFGnMdY39ifLewBsGzqREZShONfHDK5dFS4JvUIVpHPW--zF2Yj1wLT7oGOUWgq/exec'; // Replace with your actual URL
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzF7tHfY4Vd5mz-kT_EY_SB9wY_pOnSuIzl3T-cRFft21aO7p9g-qmt68G5lvo2wTOx/exec'; // Replace with your actual URL
     
     // Loan form functionality
     const loanTypeRadios = document.querySelectorAll('input[name="loanType"]');
@@ -153,11 +153,21 @@ document.addEventListener('DOMContentLoaded', function() {
         // Special validation for loan amount
         if (currentPage === 1) {
             const loanAmountElement = document.getElementById('loanAmount');
+            const loanAmountError = document.getElementById('loanAmountError');
             if (loanAmountElement) {
                 const loanAmountValue = loanAmountElement.value.replace(/[^\d]/g, '');
                 if (loanAmountValue && parseInt(loanAmountValue) < 100000) {
-                    alert('Minimum loan amount is $100,000');
+                    if (loanAmountError) {
+                        loanAmountError.textContent = 'Minimum loan amount is $100,000';
+                        loanAmountError.style.display = 'block';
+                    }
+                    loanAmountElement.focus();
                     return false;
+                } else {
+                    if (loanAmountError) {
+                        loanAmountError.textContent = '';
+                        loanAmountError.style.display = 'none';
+                    }
                 }
             }
         }
@@ -165,8 +175,26 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
+    // Hide error on input or page change
+    if (loanAmountInput) {
+        loanAmountInput.addEventListener('input', function(e) {
+            const loanAmountError = document.getElementById('loanAmountError');
+            if (loanAmountError) {
+                loanAmountError.textContent = '';
+                loanAmountError.style.display = 'none';
+            }
+        });
+    }
+
     // Function to collect form data
     function collectFormData() {
+        // Get Singapore time (UTC+8)
+        const now = new Date();
+        const sgOffset = 8 * 60; // minutes
+        const localOffset = now.getTimezoneOffset();
+        const sgTime = new Date(now.getTime() + (sgOffset + localOffset) * 60000);
+        const sgIsoString = sgTime.toISOString().replace('Z', '+08:00');
+
         const formData = {
             // Page 1 data
             propertyType: document.getElementById('propertyType')?.value || '',
@@ -181,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Additional data
             partnerId: partnerId || '',
-            timestamp: new Date().toISOString(),
+            timestamp: sgIsoString,
             userAgent: navigator.userAgent,
             referrer: document.referrer || 'Direct'
         };
@@ -272,15 +300,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to show loading state
     function showLoading(show = true) {
+        let overlay = document.querySelector('.loading-overlay');
+        if (show) {
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'loading-overlay';
+                overlay.innerHTML = '<div class="loading-spinner"></div>';
+                document.body.appendChild(overlay);
+            }
+        } else {
+            if (overlay) {
+                overlay.remove();
+            }
+        }
         const submitButton = document.querySelector('button[type="submit"]');
         if (submitButton) {
-            if (show) {
-                submitButton.disabled = true;
-                submitButton.textContent = 'Submitting...';
-            } else {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Submit';
-            }
+            submitButton.disabled = show;
+            submitButton.textContent = show ? 'Submitting...' : 'Submit';
         }
     }
 
@@ -295,6 +331,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (successPage) {
             successPage.classList.add('active');
         }
+        // Automatically reset form after 2 seconds
+        setTimeout(() => {
+            resetFormToInitialState();
+        }, 2000);
     }
 
     // Function to show error message
@@ -302,6 +342,36 @@ document.addEventListener('DOMContentLoaded', function() {
         // You can customize this to show a proper error UI
         alert(message);
     }
+
+    // Add event listener for reset button in success message
+    // const resetFormBtn = document.getElementById('resetFormBtn');
+    // if (resetFormBtn) {
+    //     resetFormBtn.addEventListener('click', resetFormToInitialState);
+    // }
+
+    function resetFormToInitialState() {
+        // Hide success page, show page 1
+        document.getElementById('successPage').classList.remove('active');
+        document.getElementById('page1').classList.add('active');
+        // Reset form fields
+        if (form) {
+            form.reset();
+        }
+        // Reset progress and step indicators
+        currentPage = 1;
+        updateProgress();
+        // Hide current bank group if needed
+        updateCurrentBankVisibility();
+    }
+
+    // If the button is dynamically added, use event delegation
+    // if (document.body) {
+    //     document.body.addEventListener('click', function(e) {
+    //         if (e.target && e.target.id === 'resetFormBtn') {
+    //             resetFormToInitialState();
+    //         }
+    //     });
+    // }
 
     // Event listeners for navigation buttons
     if (nextBtn) {
