@@ -487,50 +487,131 @@
             transform: translateZ(0);
         }
 /* Partners Section */
-.partners {
-    background: #f8f9fa;
-    padding: 4rem 0;
-}
+        .partners {
+            background: #f8f9fa;
+            padding: 4rem 0;
+        }
 
-.partners-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-}
+        .partners-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
 
-.partners h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    color: #052d4a;
-    margin-bottom: 3rem;
-}
+        .partners h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #052d4a;
+            margin-bottom: 3rem;
+        }
 
-.partners-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    align-items: center;
-}
+        /* Slider Container */
+        .partners-slider {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
 
-.tlc-partners-slide {
-    text-align: center;
-    padding: 1.5rem;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-}
+        .partners-track {
+            display: flex;
+            animation: slide 20s linear infinite;
+            gap: 3rem;
+        }
 
-.tlc-partners-slide:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-}
+        .tlc-partners-slide {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 180px;
+            height: 80px;
+        }
 
-.tlc-partners-slide img {
-    max-width: 100%;
-    height: 60px;
-    object-fit: contain;
-}
+        .tlc-partners-slide img {
+            max-width: 100%;
+            max-height: 60px;
+            object-fit: contain;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .tlc-partners-slide:hover img {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        /* Slider Animation */
+        @keyframes slide {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Pause animation on hover */
+        .partners-slider:hover .partners-track {
+            animation-play-state: paused;
+        }
+
+        /* Duplicate track for seamless loop */
+        .partners-track::after {
+            content: '';
+            display: flex;
+            gap: 3rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .partners {
+                padding: 3rem 0;
+            }
+
+            .partners-content {
+                padding: 0 1rem;
+            }
+
+            .partners h2 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .tlc-partners-slide {
+                min-width: 150px;
+                height: 60px;
+            }
+
+            .tlc-partners-slide img {
+                max-height: 45px;
+            }
+
+            .partners-track {
+                gap: 2rem;
+                animation-duration: 15s;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .partners h2 {
+                font-size: 1.5rem;
+            }
+
+            .tlc-partners-slide {
+                min-width: 120px;
+                height: 50px;
+            }
+
+            .tlc-partners-slide img {
+                max-height: 35px;
+            }
+
+            .partners-track {
+                gap: 1.5rem;
+                animation-duration: 12s;
+            }
+        }
 
 /* Redesigned Why Choose Us Section */
         .why-choose {
@@ -695,14 +776,14 @@
         }
 
 /* FAQ Section */
-            .faq {
-            background: linear-gradient(rgba(5, 45, 74, 0.8), rgba(5, 45, 74, 0.8)), url('https://theloanconnection.com.sg/wp-content/uploads/2025/04/property-decoupling-singapore-1-1000x667-1.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            padding: 5rem 0;
-            position: relative;
-            overflow: hidden;
+.faq {
+    background: linear-gradient(rgba(5, 45, 74, 0.8), rgba(5, 45, 74, 0.8)), url('https://theloanconnection.com.sg/wp-content/uploads/2025/04/property-decoupling-singapore-1-1000x667-1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 5rem 0;
+    position: relative;
+    overflow: hidden;
 }
 
 .faq-content {
@@ -752,7 +833,29 @@
 
 .faq-answer.open {
     padding: 1.5rem;
-    max-height: 200px;
+    max-height: 800px;
+}
+
+.faq-answer p {
+    color: #6c757d;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.faq-answer p:last-child {
+    margin-bottom: 0;
+}
+
+.faq-answer ul {
+    color: #6c757d;
+    line-height: 1.6;
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.faq-answer li {
+    margin-bottom: 0.5rem;
 }
 
 .faq-toggle {
@@ -762,6 +865,21 @@
 
 .faq-item.open .faq-toggle {
     transform: rotate(180deg);
+}
+
+@media (max-width: 768px) {
+    .faq-question {
+        padding: 1.2rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    .faq-answer.open {
+        padding: 1.2rem 1.5rem;
+    }
+    
+    .faq h2 {
+        font-size: 2rem;
+    }
 }
 
 /* CTA Section */
