@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Configuration
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzf_BwQDUpRnv_q1ETDvuLAHvHUme_4kgjj81BtgwqvSi-5eO0x34CsVDSAx6hPSWqR/exec'; // Replace with your actual URL
+    
     // Loan form functionality
     const loanTypeRadios = document.querySelectorAll('input[name="loanType"]');
     const currentBankGroup = document.getElementById('currentBankGroup');
@@ -31,61 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentBankInput.value = '';
                 }
             });
-        });
-    }
-
-    // Form submission handling
-    if (loanForm) {
-        loanForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-
-            // ✅ SHORTENED MESSAGE - WhatsApp works better with shorter messages
-            let message = `Hi! Mortgage inquiry:\n\n`;
-            message += `Name: ${data.name}\n`;
-            message += `Contact: ${data.contact}\n`;
-            message += `Email: ${data.email}\n`;
-            message += `Type: ${data.loanType === 'new-loan' ? 'New Loan' : 'Refinance'}\n`;
-            message += `Amount: SGD ${parseInt(data.amount).toLocaleString()}\n`;
-
-            if (data.loanType === 'refinance' && data.currentBank) {
-                message += `Current Bank: ${data.currentBank}\n`;
-            }
-
-            if (partnerId) {
-                message += `Partner: ${partnerId}\n`;
-            }
-
-            message += `\nPlease help with best rates. Thanks!`;
-
-            // ✅ DEBUGGING
-            console.log('Message:', message);
-            console.log('Message length:', message.length);
-
-            const encodedMessage = encodeURIComponent(message);
-            console.log('Encoded length:', encodedMessage.length);
-
-            // ✅ TRY MULTIPLE APPROACHES
-            const whatsappUrl = `https://wa.me/6594657429?text=${encodedMessage}`;
-            
-            // Method 1: Try direct window.open
-            console.log('Opening WhatsApp with URL:', whatsappUrl);
-            window.open(whatsappUrl, '_blank');
-            
-            // Method 2: If that doesn't work, show fallback after 3 seconds
-            setTimeout(() => {
-                const userResponse = confirm('Did WhatsApp open with the message pre-filled?\n\nClick OK if NO (to copy message instead)');
-                if (userResponse) {
-                    // Copy to clipboard
-                    navigator.clipboard.writeText(message).then(() => {
-                        alert('Message copied to clipboard! Please paste it in WhatsApp manually.');
-                    }).catch(() => {
-                        // Fallback for older browsers
-                        prompt('WhatsApp message (copy this):', message);
-                    });
-                }
-            }, 3000);
         });
     }
 
@@ -217,6 +165,144 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
+    // Function to collect form data
+    function collectFormData() {
+        const formData = {
+            // Page 1 data
+            propertyType: document.getElementById('propertyType')?.value || '',
+            serviceRequired: document.getElementById('serviceRequired')?.value || '',
+            currentBank: document.getElementById('currentBank')?.value || '',
+            loanAmount: document.getElementById('loanAmount')?.value || '',
+            
+            // Page 2 data
+            fullName: document.getElementById('fullName')?.value || '',
+            phoneNumber: document.getElementById('phoneNumber')?.value || '',
+            emailAddress: document.getElementById('emailAddress')?.value || '',
+            
+            // Additional data
+            partnerId: partnerId || '',
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent,
+            referrer: document.referrer || 'Direct'
+        };
+        
+        return formData;
+    }
+
+    // Function to submit data to Google Sheets (CORS-free approach)
+    function submitToGoogleSheets(formData) {
+        return new Promise((resolve, reject) => {
+            // Create a temporary form
+            const tempForm = document.createElement('form');
+            tempForm.action = GOOGLE_SCRIPT_URL;
+            tempForm.method = 'POST';
+            tempForm.style.display = 'none';
+            
+            // Add all form data as hidden inputs
+            Object.keys(formData).forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = formData[key];
+                tempForm.appendChild(input);
+            });
+            
+            // Create iframe for submission
+            const iframe = document.createElement('iframe');
+            iframe.name = 'submission-iframe';
+            iframe.style.display = 'none';
+            tempForm.target = 'submission-iframe';
+            
+            // Set up message listener for iframe response
+            const messageListener = function(event) {
+                if (event.data && event.data.type === 'formSubmissionComplete') {
+                    // Clean up
+                    window.removeEventListener('message', messageListener);
+                    document.body.removeChild(tempForm);
+                    document.body.removeChild(iframe);
+                    
+                    if (event.data.success) {
+                        resolve({ success: true, message: event.data.message });
+                    } else {
+                        reject(new Error(event.data.message || 'Submission failed'));
+                    }
+                }
+            };
+            
+            // Add message listener
+            window.addEventListener('message', messageListener);
+            
+            // Handle iframe load (fallback if postMessage doesn't work)
+            let loadTimeout;
+            iframe.onload = function() {
+                // Clear any existing timeout
+                if (loadTimeout) {
+                    clearTimeout(loadTimeout);
+                }
+                
+                // Set a timeout to resolve if no message is received
+                loadTimeout = setTimeout(() => {
+                    if (document.body.contains(tempForm)) {
+                        window.removeEventListener('message', messageListener);
+                        document.body.removeChild(tempForm);
+                        document.body.removeChild(iframe);
+                        resolve({ success: true, message: 'Form submitted successfully' });
+                    }
+                }, 2000); // Wait 2 seconds for postMessage
+            };
+            
+            // Handle iframe error
+            iframe.onerror = function() {
+                window.removeEventListener('message', messageListener);
+                if (document.body.contains(tempForm)) {
+                    document.body.removeChild(tempForm);
+                }
+                if (document.body.contains(iframe)) {
+                    document.body.removeChild(iframe);
+                }
+                reject(new Error('Submission failed'));
+            };
+            
+            // Append elements and submit
+            document.body.appendChild(iframe);
+            document.body.appendChild(tempForm);
+            tempForm.submit();
+        });
+    }
+
+    // Function to show loading state
+    function showLoading(show = true) {
+        const submitButton = document.querySelector('button[type="submit"]');
+        if (submitButton) {
+            if (show) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Submitting...';
+            } else {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit';
+            }
+        }
+    }
+
+    // Function to show success message
+    function showSuccessMessage() {
+        const page2 = document.getElementById('page2');
+        const successPage = document.getElementById('successPage');
+        
+        if (page2) {
+            page2.classList.remove('active');
+        }
+        if (successPage) {
+            successPage.classList.add('active');
+        }
+    }
+
+    // Function to show error message
+    function showErrorMessage(message = 'An error occurred. Please try again.') {
+        // You can customize this to show a proper error UI
+        alert(message);
+    }
+
     // Event listeners for navigation buttons
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
@@ -234,22 +320,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Form submission for multi-step form
     if (form) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            if (validateCurrentPage()) {
-                // Simulate form submission
-                setTimeout(() => {
-                    const page2 = document.getElementById('page2');
-                    const successPage = document.getElementById('successPage');
-                    
-                    if (page2) {
-                        page2.classList.remove('active');
-                    }
-                    if (successPage) {
-                        successPage.classList.add('active');
-                    }
-                }, 500);
+            if (!validateCurrentPage()) {
+                return;
+            }
+
+            // Show loading state
+            showLoading(true);
+
+            try {
+                // Collect form data
+                const formData = collectFormData();
+                
+                // Submit to Google Sheets
+                const result = await submitToGoogleSheets(formData);
+                
+                if (result.success) {
+                    // Show success message
+                    showSuccessMessage();
+                } else {
+                    throw new Error(result.message || 'Submission failed');
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                showErrorMessage('Failed to submit your application. Please try again.');
+            } finally {
+                // Hide loading state
+                showLoading(false);
             }
         });
     }
