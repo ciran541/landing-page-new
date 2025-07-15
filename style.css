@@ -78,7 +78,7 @@
             font-weight: 400;
         }
 
-        /* Optimized Hero Section - Fixed the parallax issue */
+        /* Optimized Hero Section for Performance and Mobile UX */
         .hero {
             background: #052d4a;
             min-height: 90vh;
@@ -87,9 +87,9 @@
             padding: 3rem 0;
             position: relative;
             overflow: hidden;
+            /* Removed will-change and transform for better performance */
         }
 
-        /* Optimized background image - removed fixed attachment */
         .hero::before {
             content: '';
             position: absolute;
@@ -97,13 +97,15 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url('https://res.cloudinary.com/dheuvrpwd/image/upload/w_1920,h_1080,c_fill,f_avif,q_auto:eco/v1750225077/hero_tlc-1_vs73qu.avif');
+            background: 
+                linear-gradient(120deg, rgba(5, 45, 74, 0.7) 0%, rgba(5, 45, 74, 0.5) 100%),
+                url('https://res.cloudinary.com/dheuvrpwd/image/upload/w_1280,h_720,c_fill,f_auto,q_auto:eco/v1750225077/hero_tlc-1_vs73qu.avif');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             opacity: 0.3;
             z-index: 1;
-            will-change: transform;
+            /* Removed will-change and transform for better performance */
         }
 
         .hero-content {
@@ -395,7 +397,7 @@
             }
 
             .hero {
-                min-height: 100vh;
+                min-height: 70vh;
                 padding: 2rem 0;
             }
 
@@ -406,12 +408,12 @@
             }
             
             .hero-text h1 {
-                font-size: 2.2rem;
+                font-size: 2rem;
                 text-align: center;
             }
             
             .hero-text p {
-                font-size: 1.1rem;
+                font-size: 1rem;
                 text-align: center;
             }
             
@@ -445,34 +447,21 @@
         }
 
         @media (max-width: 480px) {
+            .hero {
+                min-height: 60vh;
+                padding: 1.2rem 0;
+            }
             .hero-text h1 {
-                font-size: 1.8rem;
+                font-size: 1.3rem;
             }
-
             .hero-text p {
-                font-size: 1rem;
+                font-size: 0.95rem;
             }
-
-            .hero-stats {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .tagline {
-                font-size: 0.85rem;
-            }
-
-            .promo-red-text {
-                font-size: 0.75rem;
-            }
-
-            .form-container {
-                padding: 1.2rem;
-            }
-
-            .btn {
-                padding: 0.8rem 1.5rem;
-                font-size: 0.9rem;
+            .hero::before {
+                background: 
+                    linear-gradient(120deg, rgba(5, 45, 74, 0.85) 0%, rgba(5, 45, 74, 0.7) 100%),
+                    url('https://res.cloudinary.com/dheuvrpwd/image/upload/w_400,h_225,c_fill,f_auto,q_auto:eco/v1750225077/hero_tlc-1_vs73qu.avif');
+                opacity: 0.45;
             }
         }
 
