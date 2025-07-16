@@ -1,15 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Configuration
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrOgt6UQsbseU0hu6q-ujuSuV3vfUsvYZlEWapCd4bIDREwyqgDvT-nIKkyJL-dS6B/exec'; // Replace with your actual URL
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx5lW59iHS4-QJk41WtTMx25XFKzU-LMla2r5ukqwMBJMKqukVu6PuLfYiUZoZQICs9/exec'; // Replace with your actual URL
     
+    // ✅ Get partner ID from URL
+    const params = new URLSearchParams(window.location.search);
+    const partnerId = params.get("partner"); // e.g., 'john123'
+
+    // ✅ Track QR scan immediately on page load
+    trackQRScan();
+
     // Loan form functionality
     const loanTypeRadios = document.querySelectorAll('input[name="loanType"]');
     const currentBankGroup = document.getElementById('currentBankGroup');
     const currentBankInput = document.getElementById('currentBank');
-
-    // ✅ Get partner ID from URL
-    const params = new URLSearchParams(window.location.search);
-    const partnerId = params.get("partner"); // e.g., 'john123'
 
     // ✅ Create hidden input to store partner ID
     const loanForm = document.getElementById("loanForm");
@@ -88,6 +91,54 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             e.target.value = value;
         });
+    }
+
+    // ✅ NEW: Function to track QR scan
+    function trackQRScan() {
+        // Only track if there's a partner ID (indicating QR scan)
+        if (!partnerId) {
+            return;
+        }
+
+        // Check if already tracked in this session to avoid duplicate scans
+        const sessionKey = `qr_scan_tracked_${partnerId}`;
+        if (sessionStorage.getItem(sessionKey)) {
+            return;
+        }
+
+        // Get Singapore time (UTC+8)
+        const now = new Date();
+        const sgOffset = 8 * 60; // minutes
+        const localOffset = now.getTimezoneOffset();
+        const sgTime = new Date(now.getTime() + (sgOffset + localOffset) * 60000);
+        const sgIsoString = sgTime.toISOString().replace('Z', '+08:00');
+
+        const scanData = {
+            type: 'scan',
+            partnerId: partnerId,
+            timestamp: sgIsoString,
+            userAgent: navigator.userAgent,
+            referrer: document.referrer || 'Direct',
+            // No form data for scan tracking
+            propertyType: '',
+            serviceRequired: '',
+            currentBank: '',
+            loanAmount: '',
+            fullName: '',
+            phoneNumber: '',
+            emailAddress: ''
+        };
+
+        // Submit scan tracking data
+        submitToGoogleSheets(scanData)
+            .then(() => {
+                // Mark as tracked in session storage
+                sessionStorage.setItem(sessionKey, 'true');
+                console.log('QR scan tracked successfully');
+            })
+            .catch(error => {
+                console.error('Failed to track QR scan:', error);
+            });
     }
 
     function updateCurrentBankVisibility() {
@@ -186,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Function to collect form data
+    // ✅ UPDATED: Function to collect form data (now includes type)
     function collectFormData() {
         // Get Singapore time (UTC+8)
         const now = new Date();
@@ -196,6 +247,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const sgIsoString = sgTime.toISOString().replace('Z', '+08:00');
 
         const formData = {
+            // ✅ NEW: Add type field
+            type: 'submit',
+            
             // Page 1 data
             propertyType: document.getElementById('propertyType')?.value || '',
             serviceRequired: document.getElementById('serviceRequired')?.value || '',
@@ -343,12 +397,6 @@ document.addEventListener('DOMContentLoaded', function() {
         alert(message);
     }
 
-    // Add event listener for reset button in success message
-    // const resetFormBtn = document.getElementById('resetFormBtn');
-    // if (resetFormBtn) {
-    //     resetFormBtn.addEventListener('click', resetFormToInitialState);
-    // }
-
     function resetFormToInitialState() {
         // Hide success page, show page 1
         document.getElementById('successPage').classList.remove('active');
@@ -363,15 +411,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Hide current bank group if needed
         updateCurrentBankVisibility();
     }
-
-    // If the button is dynamically added, use event delegation
-    // if (document.body) {
-    //     document.body.addEventListener('click', function(e) {
-    //         if (e.target && e.target.id === 'resetFormBtn') {
-    //             resetFormToInitialState();
-    //         }
-    //     });
-    // }
 
     // Event listeners for navigation buttons
     if (nextBtn) {
