@@ -1,26 +1,26 @@
 const reviewsData = [
             {
-                short: "I was very impressed with the fast and efficient service from the time I inquired online to the time I obtained the bond I needed. The entire process was seamless and professional.",
-                full: "I was very impressed with the fast and efficient service from the time I inquired online to the time I obtained the bond I needed. The entire process was seamless and professional. Dexter's expertise really made the difference in getting everything sorted quickly and without any hassle. I would definitely recommend their services to anyone looking for reliable financial assistance. The attention to detail and personalized approach made all the difference in my experience.",
-                reviewer: "Lacey",
+                short: "Dexter helped us with our refinancing and we couldn't be happier.  He was detailed in his explanations which really shows his experience.",
+                full: "Dexter helped us with our refinancing and we couldn't be happier.  He was detailed in his explanations which really shows his experience. Replies were prompt and he went the extra mile to give an assessment of the market for us to make an informed decision. Really glad we connected with him and we'd recommend him in a heartbeat!",
+                reviewer: "Jonathan Soon",
                 rating: 5
             },
             {
-                short: "Exceptional service! Dexter made the entire loan process seamless and stress-free. His expertise and attention to detail are truly impressive.",
-                full: "Exceptional service! Dexter made the entire loan process seamless and stress-free. His expertise and attention to detail are truly impressive. From the initial consultation to the final paperwork, everything was handled professionally and efficiently. I couldn't have asked for a better experience, and I'm grateful for the personalized attention I received throughout the process. The communication was clear and timely at every step.",
-                reviewer: "Marcus Chen",
+                short: "Dexter has been a great help in our mortgage journey. Especially as a first time home owner, we had many queries. ",
+                full: "Dexter has been a great help in our mortgage journey. Especially as a first time home owner, we had many queries.  Dexter was knowledgeable, prompt and thorough in addressing our queries, and provided frequent updates and follow ups. Would definitely recommend his services to anyone looking to purchase their first home or to decouple.",
+                reviewer: "Yt Chng",
                 rating: 5
             },
             {
-                short: "Outstanding customer service and competitive rates. Dexter went above and beyond to ensure I got the best deal possible.",
-                full: "Outstanding customer service and competitive rates. Dexter went above and beyond to ensure I got the best deal possible. He took the time to explain all the options available and helped me understand the terms clearly. The communication was excellent throughout, and I felt confident in every decision. This level of service is rare to find these days, and I'm thoroughly impressed with the professionalism and dedication shown.",
-                reviewer: "Sarah Johnson",
+                short: "Dexter is not just my mortgage advisor—he is also my trusted go-to expert for my clients’ mortgage needs as well.",
+                full: "Dexter is not just my mortgage advisor—he is also my trusted go-to expert for my clients’ mortgage needs as well. I have complete confidence in his ability to provide sound advice, ensuring the best outcomes for those I refer to him. Beyond his unwavering commitment to finding optimal solutions, Dexter upholds the highest standards of professionalism. He is always honest, unbiased, and analytical, tailoring every recommendation to your unique needs and circumstances. His clear and insightful explanations of mortgage rates make the decision-making process effortless and well-informed.",
+                reviewer: "Rong Tzuu Lee",
                 rating: 5
             },
             {
-                short: "Quick response time and excellent communication throughout the process. Dexter made what could have been complicated very simple.",
-                full: "Quick response time and excellent communication throughout the process. Dexter made what could have been complicated very simple. He was always available to answer questions and provided clear guidance at every step. The turnaround time was incredibly fast, and the whole experience exceeded my expectations. I'll definitely be returning for future financial needs and recommending to friends and family.",
-                reviewer: "David Lee",
+                short: "2 years ago, we needed to refinance and exit from an unfavourable arrangement. We engaged Dexter as he was referred to us by our neighbour friend.",
+                full: "2 years ago, we needed to refinance and exit from an unfavourable arrangement. We engaged Dexter as he was referred to us by our neighbour friend. Dexter diligently helped us within a short timeframe as we were rushing to secure a low fix rate for our refinancing. He was transparent, honest and able to successfully deliver. We’ll definitely speak to you again for our upcoming refinancing!",
+                reviewer: "Firdaus Farid",
                 rating: 5
             }
         ];
