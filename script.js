@@ -237,6 +237,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Helper: Normalize phone numbers to include Singapore country code +65
+    function normalizePhoneNumber(raw) {
+        const digits = (raw || '').replace(/\D/g, '');
+        if (!digits) return '';
+        // If user already entered country code starting with 65 (with or without +), ensure +65 prefix
+        if (digits.startsWith('65')) {
+            return '+65' + digits.slice(2);
+        }
+        // If number starts with leading 0, remove it and prefix +65
+        if (digits.startsWith('0')) {
+            return '+65' + digits.slice(1);
+        }
+        // Default: prefix +65
+        return '+65' + digits;
+    }
+
     // ✅ UPDATED: Function to collect form data (now includes type)
     function collectFormData() {
         // Get Singapore time (UTC+8)
@@ -258,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Page 2 data
             fullName: document.getElementById('fullName')?.value || '',
-            phoneNumber: document.getElementById('phoneNumber')?.value || '',
+            phoneNumber: normalizePhoneNumber(document.getElementById('phoneNumber')?.value || ''),
             emailAddress: document.getElementById('emailAddress')?.value || '',
             
             // Additional data
