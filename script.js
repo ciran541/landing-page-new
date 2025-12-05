@@ -287,16 +287,29 @@ document.addEventListener('DOMContentLoaded', function() {
         return formData;
     }
 
-    // Function to submit data to Google Sheets (CORS-free approach)
+    // ---------------------------------------
+    // 1️⃣ SEND TO MAKE WEBHOOK (ADDED)
+    // ---------------------------------------
+    function sendToMakeWebhook(formData) {
+        const webhookURL = "https://hook.eu1.make.com/vx3m3rrsfrgjc6auodhki54pv2jcxngf";
+
+        return fetch(webhookURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
+        });
+    }
+
+    // ---------------------------------------
+    // GOOGLE SHEETS SUBMISSION (YOUR ORIGINAL CODE)
+    // ---------------------------------------
     function submitToGoogleSheets(formData) {
         return new Promise((resolve, reject) => {
-            // Create a temporary form
             const tempForm = document.createElement('form');
             tempForm.action = GOOGLE_SCRIPT_URL;
             tempForm.method = 'POST';
             tempForm.style.display = 'none';
-            
-            // Add all form data as hidden inputs
+
             Object.keys(formData).forEach(key => {
                 const input = document.createElement('input');
                 input.type = 'hidden';
@@ -304,21 +317,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 input.value = formData[key];
                 tempForm.appendChild(input);
             });
-            
-            // Create iframe for submission
+
             const iframe = document.createElement('iframe');
             iframe.name = 'submission-iframe';
             iframe.style.display = 'none';
             tempForm.target = 'submission-iframe';
-            
-            // Set up message listener for iframe response
+
             const messageListener = function(event) {
                 if (event.data && event.data.type === 'formSubmissionComplete') {
-                    // Clean up
                     window.removeEventListener('message', messageListener);
                     document.body.removeChild(tempForm);
                     document.body.removeChild(iframe);
-                    
+
                     if (event.data.success) {
                         resolve({ success: true, message: event.data.message });
                     } else {
@@ -326,19 +336,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             };
-            
-            // Add message listener
+
             window.addEventListener('message', messageListener);
-            
-            // Handle iframe load (fallback if postMessage doesn't work)
+
             let loadTimeout;
             iframe.onload = function() {
-                // Clear any existing timeout
-                if (loadTimeout) {
-                    clearTimeout(loadTimeout);
-                }
-                
-                // Set a timeout to resolve if no message is received
+                if (loadTimeout) clearTimeout(loadTimeout);
+
                 loadTimeout = setTimeout(() => {
                     if (document.body.contains(tempForm)) {
                         window.removeEventListener('message', messageListener);
@@ -346,29 +350,25 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.body.removeChild(iframe);
                         resolve({ success: true, message: 'Form submitted successfully' });
                     }
-                }, 2000); // Wait 2 seconds for postMessage
+                }, 2000);
             };
-            
-            // Handle iframe error
+
             iframe.onerror = function() {
                 window.removeEventListener('message', messageListener);
-                if (document.body.contains(tempForm)) {
-                    document.body.removeChild(tempForm);
-                }
-                if (document.body.contains(iframe)) {
-                    document.body.removeChild(iframe);
-                }
+                if (document.body.contains(tempForm)) document.body.removeChild(tempForm);
+                if (document.body.contains(iframe)) document.body.removeChild(iframe);
                 reject(new Error('Submission failed'));
             };
-            
-            // Append elements and submit
+
             document.body.appendChild(iframe);
             document.body.appendChild(tempForm);
             tempForm.submit();
         });
     }
 
-    // Function to show loading state
+    // ---------------------------------------
+    // UI HELPERS (UNCHANGED)
+    // ---------------------------------------
     function showLoading(show = true) {
         let overlay = document.querySelector('.loading-overlay');
         if (show) {
@@ -379,10 +379,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.body.appendChild(overlay);
             }
         } else {
-            if (overlay) {
-                overlay.remove();
-            }
+            if (overlay) overlay.remove();
         }
+
         const submitButton = document.querySelector('button[type="submit"]');
         if (submitButton) {
             submitButton.disabled = show;
@@ -390,45 +389,36 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Function to show success message
     function showSuccessMessage() {
         const page2 = document.getElementById('page2');
         const successPage = document.getElementById('successPage');
-        
-        if (page2) {
-            page2.classList.remove('active');
-        }
-        if (successPage) {
-            successPage.classList.add('active');
-        }
-        // Automatically reset form after 2 seconds
+
+        if (page2) page2.classList.remove('active');
+        if (successPage) successPage.classList.add('active');
+
         setTimeout(() => {
             resetFormToInitialState();
         }, 2000);
     }
 
-    // Function to show error message
     function showErrorMessage(message = 'An error occurred. Please try again.') {
-        // You can customize this to show a proper error UI
         alert(message);
     }
 
     function resetFormToInitialState() {
-        // Hide success page, show page 1
         document.getElementById('successPage').classList.remove('active');
         document.getElementById('page1').classList.add('active');
-        // Reset form fields
-        if (form) {
-            form.reset();
-        }
-        // Reset progress and step indicators
+
+        if (form) form.reset();
+
         currentPage = 1;
         updateProgress();
-        // Hide current bank group if needed
         updateCurrentBankVisibility();
     }
 
-    // Event listeners for navigation buttons
+    // ---------------------------------------
+    // MULTI-STEP UI CONTROLS (UNCHANGED)
+    // ---------------------------------------
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
             if (validateCurrentPage()) {
@@ -443,38 +433,40 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Form submission for multi-step form
+    // ---------------------------------------
+    // 2️⃣ MAIN FORM SUBMISSION (FULLY UPDATED)
+    // ---------------------------------------
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            if (!validateCurrentPage()) {
-                return;
-            }
 
-            // Show loading state
+            if (!validateCurrentPage()) return;
+
             showLoading(true);
 
             try {
-                // Collect form data
+                // Collect all form fields (your own function)
                 const formData = collectFormData();
-                
-                // Submit to Google Sheets
+
+                // 1️⃣🔥 Send instantly to MAKE → triggers WhatsApp
+                await sendToMakeWebhook(formData);
+
+                // 2️⃣📄 Send to Google Sheets
                 const result = await submitToGoogleSheets(formData);
-                
+
                 if (result.success) {
-                    // Show success message
                     showSuccessMessage();
                 } else {
                     throw new Error(result.message || 'Submission failed');
                 }
+
             } catch (error) {
                 console.error('Submission error:', error);
                 showErrorMessage('Failed to submit your application. Please try again.');
             } finally {
-                // Hide loading state
                 showLoading(false);
             }
         });
     }
+
 });
